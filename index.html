@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>李杜同聲 · 李白与杜甫诗句相似度可视化</title>
+<meta name="description" content="把全唐诗里李白与杜甫的 23,448 对相似诗句做成可以检索、对读、游玩的可视化。">
+<meta name="theme-color" content="#f7f2e7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231a1815'/%3E%3Ctext x='16' y='24' font-size='21' fill='%23f7f2e7' text-anchor='middle' font-family='serif'%3E%E6%9D%8E%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#/overview"><b>李杜同聲</b><i>LI BAI × DU FU</i></a>
+    <nav class="main" id="nav">
+      <a href="#/overview" data-nav="overview">总览</a>
+      <a href="#/pairs" data-nav="pairs">句对</a>
+      <a href="#/close" data-nav="close">精读</a>
+      <a href="#/read" data-nav="read">对读</a>
+      <a href="#/game" data-nav="game">猜一猜</a>
+    </nav>
+    <div class="topmeta" id="topmeta">全唐诗 · 句级相似度</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ═══ 总览 ═══ -->
+  <section class="view" id="view-overview">
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">全唐詩 · 句級相似度 · 0.70 — 1.00</p>
+        <h1>李杜<span class="zw">同聲</span></h1>
+        <p class="lede">一千二百年里，李白与杜甫被反复并称。这里把他们的每一句诗放到同一尺度上量一遍：<strong id="hero-count">22,613</strong> 对相似句，<span id="hero-chars">十八万字</span>的相遇。</p>
+        <p class="hint">相似度是字面重合程度，不是风格判定。它擅长找出「何时一杯酒 / 何时一尊酒」这样的同声，也会把共享套语的句子拉高——这本身就是李杜关系的一部分：杜甫写李白，用的正是李白的词。</p>
+        <div class="cta">
+          <a class="btn primary" href="#/pairs">开始检索句对</a>
+          <a class="btn ghost" href="#/close">精读 154 对</a>
+          <a class="btn ghost" href="#/read?poem=28383">看《春日忆李白》</a>
+        </div>
+      </div>
+      <div class="hero-card" id="hero-card" aria-label="相似度最高的一对"></div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <section class="block">
+      <div class="block-head">
+        <h2>相似度分布</h2>
+        <p class="hint" id="hist-hint"></p>
+      </div>
+      <div class="hist-wrap">
+        <div class="hist" id="hist"></div>
+        <div class="axis" id="axis"></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-head">
+        <h2>最像的十对</h2>
+        <p class="hint">点任意一行，跳到杜甫那一侧的整首对读。第一名是两句完全相同的诗，分属两个人。</p>
+      </div>
+      <ol class="toplist" id="toplist"></ol>
+    </section>
+
+    <section class="block two-col">
+      <div>
+        <h2>用字对照</h2>
+        <p class="hint">每万字出现次数（去标点）。左列李白偏用，右列杜甫偏用；每行数字为「李白 / 杜甫」。</p>
+        <div class="chars" id="chars"></div>
+      </div>
+      <div>
+        <h2>互寄的诗</h2>
+        <p class="hint">杜甫写给李白的 8 首，李白寄给杜甫的 3 首。右侧数字是这首诗里最像对方的一句的相似度。</p>
+        <div class="mem" id="memorial"></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="block-head">
+        <h2>方法与局限</h2>
+        <p class="hint">读这组数字之前，值得知道它是怎么来的。</p>
+      </div>
+      <dl class="method">
+        <div><dt>相似度</dt><dd>数据方给出的字面相似度，整数 0–10000；本站没有重新计算，只做除以一万的展示。<b>它是字面重合度，不是风格或影响的度量。</b></dd></div>
+        <div><dt>配对</dt><dd>共 <span id="m-pairs"></span> 对，全部 ≥ 0.70。原始文件 23,448 行，其中 <span id="m-dup"></span> 行因《全唐诗》重复收录（如《蜀道难》与《相和歌辞 蜀道难》）而句面完全相同，已合并。</dd></div>
+        <div><dt>阈值效应</dt><dd>0.70 附近的对子主要靠共用的常用字撑起；分数越高越值得细读。但高分也常来自套语与典故——<em>像，不等于化用</em>。</dd></div>
+        <div><dt>切分单位</dt><dd>沿用原库的「句」，多为五言或七言的一联/一逗，与严格的诗句单位并不完全一致，因此对读时不必逐字对位。</dd></div>
+      </dl>
+    </section>
+  </section>
+
+  <!-- ═══ 句对 ═══ -->
+  <section class="view page" id="view-pairs" hidden>
+    <div class="page-head">
+      <h1>句对</h1>
+      <p>每一行是一对跨诗人的相似句。左李白、右杜甫，中间是相似度。</p>
+      <p class="note" id="pairs-note">全部相似度 ≥ 0.70。</p>
+    </div>
+
+    <div class="filters">
+      <label class="field">
+        <span>关键词</span>
+        <input id="q" type="search" placeholder="诗句 / 诗题 / 字词" autocomplete="off" spellcheck="false">
+      </label>
+      <label class="field">
+        <span>相似度下限 ≥ <b id="min-label">0.70</b></span>
+        <input id="min" type="range" min="70" max="100" step="1" value="70">
+      </label>
+      <label class="field">
+        <span>排序</span>
+        <select id="sort">
+          <option value="desc">相似度 高 → 低</option>
+          <option value="asc">相似度 低 → 高</option>
+          <option value="rand">随机</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>范围</span>
+        <select id="scope">
+          <option value="all">全部句对</option>
+          <option value="mem">只在互寄诗里</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="result-bar">
+      <span id="count"></span>
+      <button class="link" id="reset">重置条件</button>
+    </div>
+
+    <div class="pair-list" id="pair-list"></div>
+    <div class="more"><button class="btn ghost" id="more">加载更多</button></div>
+  </section>
+
+  <!-- ═══ 精读 ═══ -->
+  <section class="view page" id="view-close" hidden>
+    <div class="page-head close-head">
+      <div>
+        <h1>精读</h1>
+        <p>相似度 ≥ 0.85 的 <b id="c-count">154</b> 对，逐条标出它们差在哪一个字。低分的那些只是共用几个常用字，这里才是真正可以当例子讲的。</p>
+        <p class="note">标色的是两句之间不同的字；标点不计。点的顺序按相似度从高到低。</p>
+      </div>
+      <button class="btn primary" id="c-stage">演示模式</button>
+    </div>
+
+    <div class="cstats" id="cstats"></div>
+
+    <div class="cfilters" id="c-filters">
+      <button data-cat="all" aria-pressed="true">全部</button>
+      <button data-cat="same" aria-pressed="false">同一句</button>
+      <button data-cat="one" aria-pressed="false">差一字</button>
+      <button data-cat="two" aria-pressed="false">差两字</button>
+      <button data-cat="other" aria-pressed="false">差三字以上</button>
+    </div>
+
+    <div class="close-list" id="close-list"></div>
+    <div class="more"><button class="btn ghost" id="c-more">再展开 20 条</button></div>
+  </section>
+
+  <!-- ═══ 对读 ═══ -->
+  <section class="view page" id="view-read" hidden>
+    <div class="page-head">
+      <h1>对读</h1>
+      <p>选一首诗，逐句看它在对方诗里找到了谁。点右侧任意一句，就跳到那一首。</p>
+    </div>
+    <div class="read-layout">
+      <aside class="picker">
+        <input id="poem-search" type="search" placeholder="搜索诗题…" autocomplete="off" spellcheck="false">
+        <div class="chips" id="poem-chips">
+          <button data-poet="all" aria-pressed="true">全部</button>
+          <button data-poet="li" aria-pressed="false">李白</button>
+          <button data-poet="du" aria-pressed="false">杜甫</button>
+          <button data-poet="mem" aria-pressed="false">互寄</button>
+        </div>
+        <ul class="plist" id="poem-list"></ul>
+      </aside>
+      <article class="poem-panel" id="poem-panel"></article>
+    </div>
+  </section>
+
+  <!-- ═══ 猜一猜 ═══ -->
+  <section class="view page" id="view-game" hidden>
+    <div class="page-head" style="text-align:center;margin:0 auto 26px;max-width:44em">
+      <h1>这一句，谁写的</h1>
+      <p>从两人的诗里随机抽一句，猜作者。按 <kbd>1</kbd> 李白、<kbd>2</kbd> 杜甫。</p>
+    </div>
+    <div class="game">
+      <div class="gtop">
+        <span>连对 <b id="g-streak">0</b></span>
+        <span>战绩 <b id="g-score">0 / 0</b></span>
+        <span>用时 <b id="g-timer">0s</b></span>
+      </div>
+      <div class="gcard" id="g-card"></div>
+      <div class="gactions" id="g-actions"></div>
+      <p class="gnote" id="g-note"></p>
+    </div>
+  </section>
+
+</main>
+
+<div class="stage" id="stage" hidden aria-hidden="true">
+  <div class="stage-in">
+    <div class="stage-top">
+      <span id="stage-idx">01 / 154</span>
+      <span id="stage-cat"></span>
+      <span id="stage-sim">0.9429</span>
+    </div>
+    <p class="stage-line li" id="stage-a"></p>
+    <p class="stage-src" id="stage-asrc"></p>
+    <div class="stage-diff" id="stage-diff"></div>
+    <p class="stage-line du" id="stage-b"></p>
+    <p class="stage-src" id="stage-bsrc"></p>
+  </div>
+  <div class="stage-nav">
+    <button id="stage-prev" class="btn ghost">← 上一对</button>
+    <span class="stage-hint">← → 翻页 · Esc 退出</span>
+    <button id="stage-next" class="btn ghost">下一对 →</button>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>数据：全唐诗句库 · 李白 1,084 首 / 杜甫 1,462 首</span>
+    <span>相似度为字面重合度，仅作阅读线索</span>
+    <span class="sp" id="foot-meta"></span>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
