@@ -1,5 +1,7 @@
 # 李杜同聲
 
+**线上：https://cyberpiggy0419.github.io/li-du-cp/**
+
 全唐诗里李白与杜甫的诗句相似度可视化。纯静态、零依赖、零构建：双击 `index.html` 就能看。
 
 **四个页面**
