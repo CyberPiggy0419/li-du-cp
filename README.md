@@ -68,6 +68,9 @@ gh api -X POST repos/CyberPiggy0419/li-du-cp/pages -f 'source[branch]=main' -f '
 
 站点会出现在 `https://cyberpiggy0419.github.io/li-du-cp/`。仓库根就是站点根，不需要 Actions。
 
+> 校园网偶尔会掐掉 `github.com:443`（`api.github.com`、`*.github.io` 仍然通）。这时用能连上的 IP 直连推：
+> `git -c http.curloptResolve=github.com:443:<可用IP> push`，可用 IP 先用 `curl --resolve github.com:443:<ip> https://github.com/` 试出来。
+
 ## 关于数字的几句话（写论文时用得上）
 
 - 相似度是**字面重合度**，不是风格相似，也不是影响关系。0.70 这一档（占 75%）主要靠常用字撑起来，读的时候当线索，别当结论。
