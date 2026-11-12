@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>李杜同聲 · 李白与杜甫诗句相似度可视化</title>
-<meta name="description" content="把全唐诗里李白与杜甫的 23,448 对相似诗句做成可以检索、对读、游玩的可视化。">
+<meta name="description" content="把李白与杜甫的 22,613 对相似诗句做成可以检索、对读、游玩的可视化。数据由 2026 数字人文专题课程提供数据库。">
 <meta name="theme-color" content="#f7f2e7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231a1815'/%3E%3Ctext x='16' y='24' font-size='21' fill='%23f7f2e7' text-anchor='middle' font-family='serif'%3E%E6%9D%8E%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/style.css">
@@ -98,7 +98,8 @@
         <p class="hint">读这组数字之前，值得知道它是怎么来的。</p>
       </div>
       <dl class="method">
-        <div><dt>相似度</dt><dd>数据方给出的字面相似度，整数 0–10000；本站没有重新计算，只做除以一万的展示。<b>它是字面重合度，不是风格或影响的度量。</b></dd></div>
+        <div class="wide"><dt>数据来源</dt><dd><b>2026 数字人文专题课程提供数据库</b>：全唐诗文本（李白 1,084 首 14,469 句、杜甫 1,462 首 19,347 句）与句级相似度配对。本站所有数字都由这份数据编译而来，没有另取外部语料。</dd></div>
+        <div><dt>相似度</dt><dd>数据库给出的字面相似度，整数 0–10000；本站没有重新计算，只做除以一万的展示。<b>它是字面重合度，不是风格或影响的度量。</b></dd></div>
         <div><dt>配对</dt><dd>共 <span id="m-pairs"></span> 对，全部 ≥ 0.70。原始文件 23,448 行，其中 <span id="m-dup"></span> 行因《全唐诗》重复收录（如《蜀道难》与《相和歌辞 蜀道难》）而句面完全相同，已合并。</dd></div>
         <div><dt>阈值效应</dt><dd>0.70 附近的对子主要靠共用的常用字撑起；分数越高越值得细读。但高分也常来自套语与典故——<em>像，不等于化用</em>。</dd></div>
         <div><dt>切分单位</dt><dd>沿用原库的「句」，多为五言或七言的一联/一逗，与严格的诗句单位并不完全一致，因此对读时不必逐字对位。</dd></div>
@@ -237,7 +238,7 @@
 
 <footer>
   <div class="wrap">
-    <span>数据：全唐诗句库 · 李白 1,084 首 / 杜甫 1,462 首</span>
+    <span>数据：2026 数字人文专题课程提供数据库 · 李白 1,084 首 / 杜甫 1,462 首</span>
     <span>相似度为字面重合度，仅作阅读线索</span>
     <span class="sp" id="foot-meta"></span>
   </div>
