@@ -28,9 +28,10 @@ python -m http.server 8412
 ## 目录
 
 ```
-index.html            页面骨架（静态部分 + 四个 section）
+index.html            页面骨架（静态部分 + 五个 section）
 assets/style.css      全部样式（纸墨配色，无外部字体依赖）
 assets/app.js         全部逻辑（原生 JS，无框架）
+assets/img/           配图（杜甫推李白漫画，背景已抠成透明，webp + png 双份）
 assets/data.js        ⚠ 生成物，由 build_data.py 产出，不要手改
 build_data.py         数据编译脚本
 ```

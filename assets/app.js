@@ -98,6 +98,9 @@
     var mp = $('#m-pairs'), md = $('#m-dup');
     if (mp) mp.textContent = num(M.pairs);
     if (md) md.textContent = num(M.dupRows);
+    var mdDu = $('#meme-du'), mdLi = $('#meme-li');
+    if (mdDu) mdDu.textContent = MEM_DU.length;
+    if (mdLi) mdLi.textContent = MEM_LI.length;
 
     var cards = [
       ['li', num(M.lbPoems) + '<small>首</small>', '李白 · ' + num(M.lbLines) + ' 句'],

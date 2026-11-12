@@ -124,6 +124,30 @@ nav.main a[aria-current="page"]::after{
 .hc-mid span{flex:1;height:1px;background:var(--rule)}
 .hc-mid b{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.14em}
 
+/* ── 漫画 ─────────────────────────────── */
+.meme{
+  display:grid;grid-template-columns:320px 1fr;gap:42px;align-items:center;
+  margin:0 0 34px;padding:28px 34px;background:var(--paper-2);
+  border:1px solid var(--rule);border-radius:2px
+}
+.meme picture{display:block}
+.meme img{
+  width:100%;height:auto;display:block;transform:rotate(-1.8deg);
+  transition:transform .45s cubic-bezier(.2,.7,.3,1);
+  filter:drop-shadow(0 14px 24px rgba(26,24,21,.14))
+}
+.meme:hover img{transform:rotate(0) scale(1.015)}
+.meme .meme-tag{
+  display:block;font-family:var(--mono);font-size:10px;letter-spacing:.24em;
+  color:var(--ink-3);margin-bottom:9px
+}
+.meme figcaption b{
+  display:block;font-size:17px;font-weight:600;letter-spacing:.2em;margin-bottom:10px
+}
+.meme figcaption p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.95}
+.meme figcaption em{font-style:normal;color:var(--du);font-family:var(--mono);font-size:13px;padding:0 1px}
+.meme .meme-go{margin-top:12px;font-size:12.5px;color:var(--ink-3)}
+
 /* ── 数字 ─────────────────────────────── */
 .stats{
   display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);
@@ -456,6 +480,8 @@ footer .sp{margin-left:auto;font-family:var(--mono);letter-spacing:.06em}
   .stats{grid-template-columns:1fr 1fr}
   .filters{grid-template-columns:1fr}
   .cstats{grid-template-columns:1fr 1fr}
+  .meme{grid-template-columns:1fr;gap:20px;padding:20px}
+  .meme img{max-width:236px;margin:0 auto}
   .close-head{flex-direction:column;gap:16px}
   .cc{padding:15px 16px 13px}
   .cc-pair{grid-template-columns:1fr;gap:6px;max-width:none}
